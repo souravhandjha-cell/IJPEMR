@@ -1,0 +1,9 @@
+IJPEMR INTERNATIONAL UPDATE
+Add these 4 files to the existing GitHub Pages repository:
+- open-access.html
+- peer-review.html
+- copyright-license.html
+- publisher.html
+
+These pages use the existing style.css and navigation.
+Do not claim ISSN, DOI, Scopus, Web of Science, PubMed, DOAJ, UGC or Impact Factor until officially obtained.
