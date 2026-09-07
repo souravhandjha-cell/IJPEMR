@@ -1,0 +1,74 @@
+const SHEET_ID = '1yIVk5kdpQ-nxz_MxSL32HWPG0t7M7yIe1LxPw3Gl3B8';
+const SHEET_NAME = 'Manuscripts';
+
+function sheet_() {
+  return SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+}
+
+function jsonp_(obj, callback) {
+  const text = JSON.stringify(obj);
+  return ContentService.createTextOutput(
+    (callback ? callback + '(' : '') + text + (callback ? ')' : '')
+  ).setMimeType(ContentService.MimeType.JAVASCRIPT);
+}
+
+function doGet(e) {
+  const p = e.parameter || {};
+  const action = (p.action || 'track').toLowerCase();
+  const callback = p.callback || '';
+
+  try {
+    const sh = sheet_();
+    if (!sh) throw new Error('Sheet tab "Manuscripts" not found.');
+
+    if (action === 'save') {
+      const id = String(p.id || '').trim();
+      const email = String(p.email || '').trim().toLowerCase();
+      const title = String(p.title || '').trim();
+      const now = new Date();
+
+      if (!id || !email) throw new Error('Missing manuscript ID or email.');
+
+      // Prevent duplicate records for the same ID.
+      const last = sh.getLastRow();
+      if (last >= 2) {
+        const ids = sh.getRange(2, 1, last - 1, 1).getValues().flat().map(String);
+        if (ids.indexOf(id) === -1) {
+          sh.appendRow([id, email, title, 'Under Initial Screening', now, now, 'Submission received successfully.']);
+        }
+      } else {
+        sh.appendRow([id, email, title, 'Under Initial Screening', now, now, 'Submission received successfully.']);
+      }
+
+      return jsonp_({ok:true, id:id}, callback);
+    }
+
+    const id = String(p.id || '').trim().toLowerCase();
+    const email = String(p.email || '').trim().toLowerCase();
+    if (!id || !email) return jsonp_({found:false, error:'Please provide manuscript ID and email.'}, callback);
+
+    const last = sh.getLastRow();
+    if (last < 2) return jsonp_({found:false}, callback);
+
+    const rows = sh.getRange(2, 1, last - 1, 7).getValues();
+    for (let i = 0; i < rows.length; i++) {
+      const r = rows[i];
+      if (String(r[0]).trim().toLowerCase() === id &&
+          String(r[1]).trim().toLowerCase() === email) {
+        return jsonp_({
+          found:true,
+          id:String(r[0]),
+          email:String(r[1]),
+          title:String(r[2]),
+          status:String(r[3]),
+          submitted: r[4] ? new Date(r[4]).toLocaleString('en-IN') : '',
+          updated: r[5] ? new Date(r[5]).toLocaleString('en-IN') : '',
+          message:String(r[6] || '')
+        }, callback);
+      }
+    }
+    return jsonp_({found:false}, callback);
+  } catch (err) {
+    return jsonp_({found:false, error:String(err.message || err)}, callback);
+  }
+}
