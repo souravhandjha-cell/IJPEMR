@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Track Manuscript | IJPEMR</title>
+<meta name="description" content="Track your manuscript status at IJPEMR.">
+<link rel="canonical" href="https://ijpemr.online/track.html">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:linear-gradient(135deg,#173b72,#2867b2);color:#fff;text-align:center;padding:28px 16px}
+header h1{margin:0 0 8px;font-size:27px}header p{margin:0}
+.wrap{max-width:850px;margin:28px auto;padding:0 16px}.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 5px 22px rgba(0,0,0,.08)}
+label{display:block;font-weight:700;margin:15px 0 7px}input{width:100%;padding:13px;border:1px solid #ccd4e0;border-radius:9px;font-size:16px}
+button{width:100%;margin-top:18px;padding:14px;border:0;border-radius:9px;background:#1769aa;color:#fff;font-size:16px;font-weight:700}
+.hidden{display:none}.status{display:inline-block;padding:8px 13px;border-radius:20px;background:#e8f1ff;color:#15549a;font-weight:700}
+.timeline{border-left:3px solid #d7e0ec;padding-left:20px;margin:25px 0}.step{position:relative;margin:0 0 22px;min-height:20px}.step:before{content:"";position:absolute;left:-32px;top:0;width:18px;height:18px;border-radius:50%;background:#d5dbe5;border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.15)}
+.step.done:nth-child(1):before,.step.current:nth-child(1):before{background:#2196f3}.step.done:nth-child(2):before,.step.current:nth-child(2):before{background:#8e44ad}.step.done:nth-child(3):before,.step.current:nth-child(3):before{background:#f39c12}.step.done:nth-child(4):before,.step.current:nth-child(4):before{background:#27ae60}.step.done:nth-child(5):before,.step.current:nth-child(5):before{background:#16a085}.step.done strong{font-weight:700}.step.current strong{font-weight:800}
+.message{background:#f6f8fb;border-left:4px solid #1769aa;padding:14px;border-radius:7px;white-space:pre-wrap}.error{color:#b42318;background:#fff0f0;padding:12px;border-radius:8px}.success{color:#166534;background:#ecfdf3;padding:12px;border-radius:8px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.actions a{flex:1;min-width:180px;text-align:center;text-decoration:none;padding:12px;border-radius:8px;background:#1769aa;color:#fff;font-weight:700}
+footer{text-align:center;color:#667085;padding:25px 15px;font-size:14px}
+</style></head>
+<body>
+<header><h1>International Journal of Pharmaceutical, Engineering and Multidisciplinary Research</h1><p>Manuscript Tracking System — IJPEMR</p></header>
+<div class="wrap">
+<div class="card"><h2>Track Your Manuscript</h2><p>Enter your Manuscript ID and corresponding author email to view the latest editorial status.</p>
+<label for="mid">Manuscript ID</label><input id="mid" placeholder="e.g. IJPEMR-2026-854505">
+<label for="email">Corresponding Author Email</label><input id="email" type="email" placeholder="Enter your email">
+<button id="btn" onclick="track()">Track Manuscript</button><div id="msg" class="hidden" style="margin-top:16px"></div></div>
+<div id="details" class="card hidden"></div></div>
+<footer>International Journal of Pharmaceutical, Engineering and Multidisciplinary Research (IJPEMR)<br>Bhopal, Madhya Pradesh, India</footer>
+<script>
+const API="https://script.google.com/macros/s/AKfycbxclAuRNJCjlBLNi0Q0kLhZ7ukvva5U1pGofJPstzcVtW87natigNouVhs5uwPGLekW/exec";
+const states=["Under Initial Screening","Under Review","Revision Required","Accepted","Published"];
+const esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+async function track(){
+ const id=document.getElementById("mid").value.trim(), email=document.getElementById("email").value.trim();
+ const msg=document.getElementById("msg"), box=document.getElementById("details"), btn=document.getElementById("btn");
+ box.classList.add("hidden");msg.classList.remove("hidden");
+ if(!id||!email){msg.innerHTML='<div class="error">Please enter both Manuscript ID and email.</div>';return}
+ btn.disabled=true;btn.textContent="Checking...";
+ try{
+  const r=await fetch(API+"?id="+encodeURIComponent(id)+"&email="+encodeURIComponent(email));const d=await r.json();
+  if(!d.found){msg.innerHTML='<div class="error">'+esc(d.error||"No matching manuscript record found.")+"</div>";return}
+  msg.innerHTML='<div class="success">Manuscript record found successfully.</div>';
+  const idx=states.indexOf(d.status);
+  const tl=states.map((s,i)=>'<div class="step '+(i<idx?"done":i===idx?"current":"")+'"><strong>'+esc(s)+"</strong></div>").join("");
+  let pub="";
+  if(d.status==="Published")pub='<hr><h2>Published Article</h2><p>Your manuscript has been published in IJPEMR.</p><div class="actions"><a target="_blank" href="https://ijpemr.online/articles/IJPEMR-2026-001.html">View Article</a><a target="_blank" href="https://ijpemr.online/articles/IJPEMR-2026-001-Framework-Publication-Ready.pdf">Download PDF</a></div>';
+  box.innerHTML='<h2>Manuscript Details</h2><p><b>Manuscript ID:</b> '+esc(d.id)+'</p><p><b>Title:</b> '+esc(d.title)+'</p><p><b>Current Status:</b> <span class="status">'+esc(d.status)+'</span></p><div class="timeline">'+tl+'</div><p><b>Submitted:</b> '+esc(d.submitted)+'</p><p><b>Last Updated:</b> '+esc(d.updated)+'</p><p><b>Editorial Message:</b></p><div class="message">'+esc(d.message||"No editorial message available.")+"</div>"+pub;
+  box.classList.remove("hidden");
+ }catch(e){msg.innerHTML='<div class="error">Unable to connect to the tracking server. Please try again.</div>'}
+ finally{btn.disabled=false;btn.textContent="Track Manuscript"}
+}
+</script></body></html>
