@@ -1,0 +1,73 @@
+/* IJPEMR STANDARD HEADER — use on every page */
+.site-header{
+  background:linear-gradient(125deg,#062947 0%,#1266a8 48%,#00a884 100%);
+  color:#fff;
+  padding:22px 20px;
+  position:relative;
+  overflow:hidden;
+}
+.site-header:after{
+  content:"";
+  position:absolute;
+  width:380px;
+  height:380px;
+  border-radius:50%;
+  right:-120px;
+  top:-220px;
+  background:#ffffff18;
+}
+.site-header .header-inner{
+  max-width:1180px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  position:relative;
+  z-index:1;
+}
+.site-logo{
+  width:92px;
+  height:92px;
+  object-fit:contain;
+  flex:0 0 92px;
+  border-radius:50%;
+}
+.header-brand{flex:1;min-width:0}
+.journal-name{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:28px;
+  font-weight:700;
+  line-height:1.2;
+  color:#fff;
+}
+.journal-tagline{
+  margin-top:7px;
+  font-size:14px;
+  line-height:1.35;
+  color:#fff;
+}
+.site-nav{
+  background:#fff;
+  border-bottom:1px solid #e5edf2;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
+}
+.site-nav .nav-inner{
+  max-width:1180px;
+  margin:auto;
+  display:flex;
+  flex-wrap:wrap;
+}
+.site-nav a{
+  padding:13px 10px;
+  text-decoration:none;
+  color:#18364a;
+  font-size:12px;
+}
+@media(max-width:700px){
+  .site-header{padding:14px 10px}
+  .site-header .header-inner{gap:10px}
+  .site-logo{width:65px;height:65px;flex-basis:65px}
+  .journal-name{font-size:17px;line-height:1.18}
+  .journal-tagline{font-size:10px;line-height:1.25}
+  .site-nav a{padding:10px 7px;font-size:11px}
+}
