@@ -30,14 +30,27 @@ background:url("ijpemr-logo.png") center/contain no-repeat;
   .header h1{font-size:18px;line-height:1.15}
   .header p{font-size:9px;line-height:1.25}
 }
-@media(max-width:420px){
-  .header-logo{width:56px;height:56px;flex-basis:56px}
-  .header h1{font-size:16px}
-  .header p{font-size:8.5px}
+media(max-width:600px){
+.header-inner{padding:12px 12px;gap:12px}
+.logo{width:65px;height:65px;flex-basis:65px}
+.brand{font-size:17px}
+.tagline{font-size:10px}
+nav a{font-size:11px;padding:9px 7px}
+main{margin-top:22px;padding:0 10px}
+.hero{padding:22px 18px}
+.hero h1{font-size:26px}
+.hero p{font-size:13px}
+.grid{grid-template-columns:1fr}
+.footer-grid{grid-template-columns:1fr}
 }
-</style></head><body><header class="header">
+</style>
+</head>
+
+<body>
+<header class="site-header">
 <div class="header-inner">
-  <div class="header-logo" aria-hidden="true"></div>
+<img class="logo" src="ijpemr-logo.png" alt="IJPEMR Logo">
+<div>
   <div class="header-copy">
     <h1>International Journal of Pharmaceutical, Engineering and<br>Multidisciplinary Research (IJPEMR)</h1>
     <p>A Peer-Reviewed, Open-Access Journal for Pharmaceutical, Engineering, Scientific and Multidisciplinary Research</p>
