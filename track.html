@@ -89,7 +89,7 @@ async function track(){
     return '<div class="step '+stateClass+'" style="--dot-color:'+dotColor+'"><span class="timeline-dot" style="background:'+dotColor+'"></span><strong>'+esc(s)+"</strong></div>";
   }).join("");
   let pub="";
-  if(statusKey==="published")pub='<hr><h2>Published Article</h2><p>Your manuscript has been published in IJPEMR.</p><div class="actions"><a target="_blank" href="https://ijpemr.online/articles/IJPEMR-2026-001.html">View Article</a><a target="_blank" href="https://ijpemr.online/articles/IJPEMR-2026-001-Framework-Publication-Ready.pdf">Download PDF</a></div>';
+  if(statusKey==="published")pub='<hr><h2>Published Article</h2><p>Your manuscript has been published in IJPEMR.</p><div class="actions"><a target="_blank" href="https://ijpemr.online/articles/IJPEMR-2026-001.html">View Article</a><a target="_blank" href="https://ijpemr.online/articles/IJPEMR-2026-001.pdf">Download PDF</a></div>';
   box.innerHTML='<h2>Manuscript Details</h2><p><b>Manuscript ID:</b> '+esc(d.id)+'</p><p><b>Title:</b> '+esc(d.title)+'</p><p><b>Current Status:</b> <span class="status">'+esc(displayStatus)+'</span></p><div class="timeline">'+tl+'</div><p><b>Submitted:</b> '+esc(d.submitted)+'</p><p><b>Last Updated:</b> '+esc(d.updated)+'</p><p><b>Editorial Message:</b></p><div class="message">'+esc(d.message||"No editorial message available.")+"</div>"+pub;
   box.classList.remove("hidden");
  }catch(e){msg.innerHTML='<div class="error">Unable to connect to the tracking server. Please try again.</div>'}
