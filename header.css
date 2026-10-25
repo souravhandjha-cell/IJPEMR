@@ -1,0 +1,87 @@
+/* IJPEMR STANDARD HEADER — responsive and GitHub Pages safe */
+.site-header{
+  background:linear-gradient(125deg,#062947 0%,#1266a8 48%,#00a884 100%);
+  color:#fff;
+  padding:16px 18px;
+  position:relative;
+  overflow:hidden;
+}
+.site-header:after{
+  content:"";
+  position:absolute;
+  width:380px;height:380px;border-radius:50%;
+  right:-120px;top:-220px;
+  background:#ffffff18;
+}
+.site-header .header-inner{
+  max-width:1180px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  position:relative;
+  z-index:1;
+}
+.logo-link{
+  display:block;
+  flex:0 0 82px;
+  width:82px;height:82px;
+  line-height:0;
+}
+.site-logo{
+  display:block;
+  width:82px;height:82px;
+  object-fit:contain;
+  border-radius:50%;
+}
+.header-brand{flex:1;min-width:0}
+.journal-name{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:27px;
+  font-weight:700;
+  line-height:1.18;
+  color:#fff;
+}
+.journal-tagline{
+  margin-top:7px;
+  font-size:14px;
+  line-height:1.35;
+  color:#fff;
+}
+.site-nav{
+  background:#fff;
+  border-bottom:1px solid #e5edf2;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
+}
+.site-nav .nav-inner{
+  max-width:1180px;
+  margin:auto;
+  display:flex;
+  flex-wrap:wrap;
+}
+.site-nav a{
+  padding:12px 10px;
+  text-decoration:none;
+  color:#18364a;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+}
+.site-nav a:hover{
+  background:#eaf7fb;
+  color:#1266a8;
+}
+@media(max-width:700px){
+  .site-header{padding:12px 10px}
+  .site-header .header-inner{gap:9px;align-items:center}
+  .logo-link{flex:0 0 58px;width:58px;height:58px}
+  .site-logo{width:58px;height:58px}
+  .journal-name{font-size:16px;line-height:1.18}
+  .journal-tagline{font-size:9.5px;line-height:1.25;margin-top:4px}
+  .site-nav .nav-inner{
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    -webkit-overflow-scrolling:touch;
+  }
+  .site-nav a{padding:10px 9px;font-size:11px}
+}
